@@ -4,9 +4,9 @@ textreuse
 
 An R package for detecting text reuse and document similarity in a corpus.
 
-**Author:** [Lincoln Mullen](http://lincolnmullen.com)<br> **License:** [MIT](http://opensource.org/licenses/MIT) **Status:** Stable but in development
+**Author:** [Lincoln Mullen](http://lincolnmullen.com)<br> **License:** [MIT](http://opensource.org/licenses/MIT)<br> **Status:** Stable but in development
 
-[![Build Status](https://travis-ci.org/ropensci/textreuse.svg?branch=master)](https://travis-ci.org/ropensci/textreuse) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/lmullen/textreuse?branch=master)](https://ci.appveyor.com/project/lmullen/textreuse)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/textreuse)](http://cran.r-project.org/package=textreuse) [![CRAN\_Downloads](http://cranlogs.r-pkg.org/badges/grand-total/textreuse)](http://cran.r-project.org/package=textreuse) [![Build Status](https://travis-ci.org/ropensci/textreuse.svg?branch=master)](https://travis-ci.org/ropensci/textreuse) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/lmullen/textreuse?branch=master)](https://ci.appveyor.com/project/lmullen/textreuse)
 
 ### Description
 
@@ -31,7 +31,7 @@ devtools::install_github("ropensci/textreuse", build_vignettes = TRUE)
 
 There are three main approaches that one may take when using this package: pairwise comparions, minhashing/locality sensitive hashing, and extracting matching passages through text alignment.
 
-See the introductory vignette for a description of the classes provided by this package.
+See the [introductory vignette](https://cran.r-project.org/web/packages/textreuse/vignettes/textreuse-introduction.html) for a description of the classes provided by this package.
 
 ``` r
 vignette("textreuse-introduction", package = "textreuse")
@@ -97,7 +97,7 @@ pairwise_candidates(comparisons)
 #> 3 ca1851-nomatch   ny1850-match 0.0000000
 ```
 
-See the pairwise vignette for a fuller description.
+See the [pairwise vignette](https://cran.r-project.org/web/packages/textreuse/vignettes/textreuse-pairwise.html) for a fuller description.
 
 ``` r
 vignette("textreuse-pairwise", package = "textreuse")
@@ -132,7 +132,7 @@ scores
 #> 2        remember00palm remembermeorholy00palm 0.7006189
 ```
 
-For details, see the minhash vignette.
+For details, see the [minhash vignette](https://cran.r-project.org/web/packages/textreuse/vignettes/textreuse-minhash.html).
 
 ``` r
 vignette("textreuse-minhash", package = "textreuse")
@@ -140,7 +140,7 @@ vignette("textreuse-minhash", package = "textreuse")
 
 #### Text alignment
 
-We can also extract the optimal alignment between to documents with a version of the [Smith-Waterman](https://en.wikipedia.org/wiki/Smith-Waterman_algorithm), used for protein sequence alignment, adapted for natural language. Variations in the alignment will be marked.
+We can also extract the optimal alignment between to documents with a version of the [Smith-Waterman](https://en.wikipedia.org/wiki/Smith-Waterman_algorithm) algorithm, used for protein sequence alignment, adapted for natural language. The longest matching substring according to scoring values will be extracted, and variations in the alignment will be marked.
 
 ``` r
 a <- "'How do I know', she asked, 'if this is a good match?'"
@@ -155,7 +155,7 @@ align_local(a, b)
 #> This is a #### match
 ```
 
-For details, see the alignment vignette.
+For details, see the [text alignment vignette](https://cran.r-project.org/web/packages/textreuse/vignettes/textreuse-alignment.html).
 
 ``` r
 vignette("textreuse-alignment", package = "textreuse")
@@ -175,7 +175,7 @@ citation("textreuse")
 #> To cite package 'textreuse' in publications use:
 #> 
 #>   Lincoln Mullen (2015). textreuse: Detect Text Reuse and Document
-#>   Similarity. R package version 0.1.0.
+#>   Similarity. R package version 0.1.1.
 #>   https://github.com/ropensci/textreuse
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -184,7 +184,7 @@ citation("textreuse")
 #>     title = {textreuse: Detect Text Reuse and Document Similarity},
 #>     author = {Lincoln Mullen},
 #>     year = {2015},
-#>     note = {R package version 0.1.0},
+#>     note = {R package version 0.1.1},
 #>     url = {https://github.com/ropensci/textreuse},
 #>   }
 ```

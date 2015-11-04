@@ -10,7 +10,7 @@
 
 <meta name="author" content="Lincoln Mullen" />
 
-<meta name="date" content="2015-10-22" />
+<meta name="date" content="2015-11-04" />
 
 <title>Introduction to the textreuse package</title>
 
@@ -72,14 +72,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Introduction to the textreuse package</h1>
 <h4 class="author"><em>Lincoln Mullen</em></h4>
-<h4 class="date"><em>2015-10-22</em></h4>
+<h4 class="date"><em>2015-11-04</em></h4>
 </div>
 
 
-<p>The textreuse package provides classes and functions to detect document similarity and text reuse in text corpora. This introductory vignette provides details on the <code>TextReuseTextDocument</code> and <code>TextReuseCorpus</code> classes, as well as functions for tokenizing, hashing, and measuring similarity. See the pairwise or minhash/LSH vignettes for details on solving text similarity problems.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vignette</span>(<span class="st">&quot;introduction&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)
-<span class="kw">vignette</span>(<span class="st">&quot;pairwise&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)
-<span class="kw">vignette</span>(<span class="st">&quot;minhash&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)</code></pre></div>
+<p>The textreuse package provides classes and functions to detect document similarity and text reuse in text corpora. This introductory vignette provides details on the <code>TextReuseTextDocument</code> and <code>TextReuseCorpus</code> classes, as well as functions for tokenizing, hashing, and measuring similarity. See the pairwise, minhash/LSH, or alignment vignettes for details on solving text similarity problems.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vignette</span>(<span class="st">&quot;textreuse-pairwise&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)
+<span class="kw">vignette</span>(<span class="st">&quot;textreuse-minhash&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)
+<span class="kw">vignette</span>(<span class="st">&quot;textreuse-alignment&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)</code></pre></div>
 <p>For these vignette we will use a small corpus of eight documents published by the <a href="https://en.wikipedia.org/wiki/American_Tract_Society">American Tract Society</a> and available from the Internet Archive. The <a href="http://lincolnmullen.com/blog/corpus-of-american-tract-society-publications/">full corpus</a> is also available to be downloaded if you wish to test the package.</p>
 <div id="textreuse-classes" class="section level2">
 <h2>TextReuse classes</h2>
@@ -143,33 +143,15 @@ doc</code></pre></div>
 <p>The <code>tokens()</code> and <code>hashes()</code> function return the tokens and hashes associated with the document. The <code>meta()</code> function returns a named list of all the metadata fields. If that function is called with a specific ID, as in <code>meta(doc, &quot;myfield&quot;)</code>, then the value for only that field is returned. You can also assign to the metadata as a whole or a specific field, as in the example above.</p>
 <p>In addition the <code>content()</code> function provides the unprocessed text of the document.</p>
 <p>The assumption is that is that you want to tokenize and hash the tokens from the start. If, however, you wish to do any of those steps yourself, you can load a document with <code>tokenizer = NULL</code>, then use <code>tokenize()</code> or <code>rehash()</code> to recompute the tokens and hashes.</p>
+<p>Note that a <code>TextReuseTextDocument</code> can actually contain two kinds of hashes. The <code>hashes()</code> accessor gives you integer representations of each of the tokens in the document: if there are 100,000 tokens in the document, there will be 100,000 hashes. The <code>minhashes()</code> accessor gives you a signature that represents the document as a whole but not the specific tokens within it. See the minhash vignette for details: <code>vignette(&quot;textreuse-minhash&quot;)</code>.</p>
 </div>
 <div id="textreusecorpus" class="section level3">
 <h3>TextReuseCorpus</h3>
 <p>The class <code>TextReuseCorpus</code> provides a list of <code>TextReuseTextDocuments</code>. It derives from the S3 virtual class <code>Corpus</code> in the <a href="https://cran.r-project.org/package=tm">tm</a> package. It can be created from a directory of files (or by providing a vector of paths to files).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dir &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/ats&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)
-corpus &lt;-<span class="st"> </span><span class="kw">TextReuseCorpus</span>(<span class="dt">dir =</span> dir, <span class="dt">tokenizer =</span> tokenize_ngrams, <span class="dt">n =</span> <span class="dv">5</span>)</code></pre></div>
-<pre><code>## Loading, tokenizing, and hashing 8 documents.</code></pre>
-<pre><code>## 
-  |                                                                       
-  |                                                                 |   0%
-  |                                                                       
-  |========                                                         |  12%
-  |                                                                       
-  |================                                                 |  25%
-  |                                                                       
-  |========================                                         |  38%
-  |                                                                       
-  |================================                                 |  50%
-  |                                                                       
-  |=========================================                        |  62%
-  |                                                                       
-  |=================================================                |  75%
-  |                                                                       
-  |=========================================================        |  88%
-  |                                                                       
-  |=================================================================| 100%</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corpus</code></pre></div>
+corpus &lt;-<span class="st"> </span><span class="kw">TextReuseCorpus</span>(<span class="dt">dir =</span> dir, <span class="dt">tokenizer =</span> tokenize_ngrams, <span class="dt">n =</span> <span class="dv">5</span>,
+                          <span class="dt">progress =</span> <span class="ot">FALSE</span>)
+corpus</code></pre></div>
 <pre><code>## TextReuseCorpus
 ## Number of documents: 8 
 ## hash_func : hash_string 
@@ -185,6 +167,7 @@ corpus &lt;-<span class="st"> </span><span class="kw">TextReuseCorpus</span>(<sp
 ## file : /Users/lmullen/Library/R/3.2/library/textreuse/extdata/ats/remember00palm.txt 
 ## hash_func : hash_string 
 ## id : remember00palm 
+## minhash_func : 
 ## tokenizer : tokenize_ngrams 
 ## content : Remember 
 ## By 
@@ -287,6 +270,14 @@ b &lt;-<span class="st"> </span><span class="kw">tokenize_words</span>(<span cla
 <pre><code>## [1] 0.75</code></pre>
 <p>See the documentation for <code>?similarity-functions</code> for details on what is measured with these functions.</p>
 <p>You can write your own similarity functions, which should accept two sets or bags, <code>a</code> and <code>b</code>, should work on both character and numeric vectors, since they are used with either tokens or hashes of tokens, and should return a single numeric score for the comparison. You will need to implement a method for the <code>TextReuseTextDocument</code> class.</p>
+</div>
+<div id="parallelization" class="section level2">
+<h2>Parallelization</h2>
+<p>This package will use multiple cores for a few functions is an option is set. This only benefits the corpus loading and tokenizing functions, which are often the slowest parts of an analysis. This is implemented with the <a href="https://cran.r-project.org/web/views/HighPerformanceComputing.html">parallel package</a>, and does not work on Windows machines. (Regardless of the options set, this package will never attempt to parallelize computations on Windows.)</p>
+<p>To use the parallel option, you must specify the number of CPU cores that you wish to use:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="st">&quot;mc.cores&quot;</span> =<span class="st"> </span>4L)</code></pre></div>
+<p>If that option is set, this package will use multiple cores when possible.</p>
+<p>You can figure out how many cores your computer has with <code>parallel::detectCores()</code>. See <code>help(package = &quot;parallel&quot;)</code> for more details.</p>
 </div>
 
 

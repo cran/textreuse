@@ -9,12 +9,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The textreuse package provides classes and functions to detect document similarity and text reuse in text corpora. This introductory vignette provides details on the `TextReuseTextDocument` and `TextReuseCorpus` classes, as well as functions for tokenizing, hashing, and measuring similarity. See the pairwise or minhash/LSH vignettes for details on solving text similarity problems.
+The textreuse package provides classes and functions to detect document similarity and text reuse in text corpora. This introductory vignette provides details on the `TextReuseTextDocument` and `TextReuseCorpus` classes, as well as functions for tokenizing, hashing, and measuring similarity. See the pairwise, minhash/LSH, or alignment vignettes for details on solving text similarity problems.
 
 ```{r eval=FALSE}
-vignette("introduction", package = "textreuse")
-vignette("pairwise", package = "textreuse")
-vignette("minhash", package = "textreuse")
+vignette("textreuse-pairwise", package = "textreuse")
+vignette("textreuse-minhash", package = "textreuse")
+vignette("textreuse-alignment", package = "textreuse")
 ```
 
 For these vignette we will use a small corpus of eight documents published by the [American Tract Society](https://en.wikipedia.org/wiki/American_Tract_Society) and available from the Internet Archive. The [full corpus](http://lincolnmullen.com/blog/corpus-of-american-tract-society-publications/) is also available to be downloaded if you wish to test the package.
@@ -54,13 +54,16 @@ In addition the `content()` function provides the unprocessed text of the docume
 
 The assumption is that is that you want to tokenize and hash the tokens from the start. If, however, you wish to do any of those steps yourself, you can load a document with `tokenizer = NULL`, then use `tokenize()` or `rehash()` to recompute the tokens and hashes.
 
+Note that a `TextReuseTextDocument` can actually contain two kinds of hashes. The `hashes()` accessor gives you integer representations of each of the tokens in the document: if there are 100,000 tokens in the document, there will be 100,000 hashes. The `minhashes()` accessor gives you a signature that represents the document as a whole but not the specific tokens within it. See the minhash vignette for details: `vignette("textreuse-minhash")`.
+
 ### TextReuseCorpus
 
 The class `TextReuseCorpus` provides a list of `TextReuseTextDocuments`. It derives from the S3 virtual class `Corpus` in the [tm](https://cran.r-project.org/package=tm) package. It can be created from a directory of files (or by providing a vector of paths to files).
 
 ```{r}
 dir <- system.file("extdata/ats", package = "textreuse")
-corpus <- TextReuseCorpus(dir = dir, tokenizer = tokenize_ngrams, n = 5)
+corpus <- TextReuseCorpus(dir = dir, tokenizer = tokenize_ngrams, n = 5,
+                          progress = FALSE)
 corpus
 ```
 
@@ -140,4 +143,18 @@ ratio_of_matches(a, b)
 See the documentation for `?similarity-functions` for details on what is measured with these functions.
 
 You can write your own similarity functions, which should accept two sets or bags, `a` and `b`, should work on both character and numeric vectors, since they are used with either tokens or hashes of tokens, and should return a single numeric score for the comparison. You will need to implement a method for the `TextReuseTextDocument` class.
+
+## Parallelization
+
+This package will use multiple cores for a few functions is an option is set. This only benefits the corpus loading and tokenizing functions, which are often the slowest parts of an analysis. This is implemented with the [parallel package](https://cran.r-project.org/web/views/HighPerformanceComputing.html), and does not work on Windows machines. (Regardless of the options set, this package will never attempt to parallelize computations on Windows.)
+
+To use the parallel option, you must specify the number of CPU cores that you wish to use:
+
+```{R eval = FALSE}
+options("mc.cores" = 4L)
+```
+
+If that option is set, this package will use multiple cores when possible.
+
+You can figure out how many cores your computer has with `parallel::detectCores()`. See `help(package = "parallel")` for more details.
 

@@ -10,7 +10,7 @@
 
 <meta name="author" content="Lincoln Mullen" />
 
-<meta name="date" content="2015-10-22" />
+<meta name="date" content="2015-11-04" />
 
 <title>Pairwise comparisons for document similarity</title>
 
@@ -72,7 +72,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Pairwise comparisons for document similarity</h1>
 <h4 class="author"><em>Lincoln Mullen</em></h4>
-<h4 class="date"><em>2015-10-22</em></h4>
+<h4 class="date"><em>2015-11-04</em></h4>
 </div>
 
 
@@ -80,94 +80,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>First we will load the corpus and tokenize it with shingled n-grams.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(textreuse)
 dir &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/ats&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)
-corpus &lt;-<span class="st"> </span><span class="kw">TextReuseCorpus</span>(<span class="dt">dir =</span> dir, <span class="dt">tokenizer =</span> tokenize_ngrams, <span class="dt">n =</span> <span class="dv">5</span>)</code></pre></div>
-<pre><code>## Loading, tokenizing, and hashing 8 documents.</code></pre>
-<pre><code>## 
-  |                                                                       
-  |                                                                 |   0%
-  |                                                                       
-  |========                                                         |  12%
-  |                                                                       
-  |================                                                 |  25%
-  |                                                                       
-  |========================                                         |  38%
-  |                                                                       
-  |================================                                 |  50%
-  |                                                                       
-  |=========================================                        |  62%
-  |                                                                       
-  |=================================================                |  75%
-  |                                                                       
-  |=========================================================        |  88%
-  |                                                                       
-  |=================================================================| 100%</code></pre>
+corpus &lt;-<span class="st"> </span><span class="kw">TextReuseCorpus</span>(<span class="dt">dir =</span> dir, <span class="dt">tokenizer =</span> tokenize_ngrams, <span class="dt">n =</span> <span class="dv">5</span>,
+                          <span class="dt">progress =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p>We can use any of the comparison functions to compare two documents in the corpus. (Note that these functions, when applied to documents, compare their hashed tokens and not the tokens directly.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">jaccard_similarity</span>(corpus[[<span class="st">&quot;remember00palm&quot;</span>]], 
                    corpus[[<span class="st">&quot;remembermeorholy00palm&quot;</span>]])</code></pre></div>
 <pre><code>## [1] 0.7006189</code></pre>
 <p>The <code>pairwise_compare()</code> function applies a comparison function to each pair of documents in a corpus. The result is a matrix with the scores for each comparison.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">comparisons &lt;-<span class="st"> </span><span class="kw">pairwise_compare</span>(corpus, jaccard_similarity)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">comparisons &lt;-<span class="st"> </span><span class="kw">pairwise_compare</span>(corpus, jaccard_similarity, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
 comparisons[<span class="dv">1</span>:<span class="dv">4</span>, <span class="dv">1</span>:<span class="dv">4</span>]</code></pre></div>
-<pre><code>## Making 28 comparisons.</code></pre>
-<pre><code>## 
-  |                                                                       
-  |                                                                 |   0%
-  |                                                                       
-  |==                                                               |   4%
-  |                                                                       
-  |=====                                                            |   7%
-  |                                                                       
-  |=======                                                          |  11%
-  |                                                                       
-  |=========                                                        |  14%
-  |                                                                       
-  |============                                                     |  18%
-  |                                                                       
-  |==============                                                   |  21%
-  |                                                                       
-  |================                                                 |  25%
-  |                                                                       
-  |===================                                              |  29%
-  |                                                                       
-  |=====================                                            |  32%
-  |                                                                       
-  |=======================                                          |  36%
-  |                                                                       
-  |==========================                                       |  39%
-  |                                                                       
-  |============================                                     |  43%
-  |                                                                       
-  |==============================                                   |  46%
-  |                                                                       
-  |================================                                 |  50%
-  |                                                                       
-  |===================================                              |  54%
-  |                                                                       
-  |=====================================                            |  57%
-  |                                                                       
-  |=======================================                          |  61%
-  |                                                                       
-  |==========================================                       |  64%
-  |                                                                       
-  |============================================                     |  68%
-  |                                                                       
-  |==============================================                   |  71%
-  |                                                                       
-  |=================================================                |  75%
-  |                                                                       
-  |===================================================              |  79%
-  |                                                                       
-  |=====================================================            |  82%
-  |                                                                       
-  |========================================================         |  86%
-  |                                                                       
-  |==========================================================       |  89%
-  |                                                                       
-  |============================================================     |  93%
-  |                                                                       
-  |===============================================================  |  96%
-  |                                                                       
-  |=================================================================| 100%</code></pre>
 <pre><code>##                        calltounconv00baxt gospeltruth00whit
 ## calltounconv00baxt                     NA             0.001
 ## gospeltruth00whit                      NA                NA

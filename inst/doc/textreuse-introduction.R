@@ -1,7 +1,7 @@
 ## ----eval=FALSE----------------------------------------------------------
-#  vignette("introduction", package = "textreuse")
-#  vignette("pairwise", package = "textreuse")
-#  vignette("minhash", package = "textreuse")
+#  vignette("textreuse-pairwise", package = "textreuse")
+#  vignette("textreuse-minhash", package = "textreuse")
+#  vignette("textreuse-alignment", package = "textreuse")
 
 ## ------------------------------------------------------------------------
 library(textreuse)
@@ -22,7 +22,8 @@ wordcount(doc)
 
 ## ------------------------------------------------------------------------
 dir <- system.file("extdata/ats", package = "textreuse")
-corpus <- TextReuseCorpus(dir = dir, tokenizer = tokenize_ngrams, n = 5)
+corpus <- TextReuseCorpus(dir = dir, tokenizer = tokenize_ngrams, n = 5,
+                          progress = FALSE)
 corpus
 
 ## ------------------------------------------------------------------------
@@ -66,4 +67,7 @@ jaccard_similarity(a, b)
 jaccard_dissimilarity(a, b)
 jaccard_bag_similarity(a, b)
 ratio_of_matches(a, b)
+
+## ----eval = FALSE--------------------------------------------------------
+#  options("mc.cores" = 4L)
 

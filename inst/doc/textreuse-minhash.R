@@ -1,5 +1,5 @@
 ## ---- echo=FALSE, message=FALSE------------------------------------------
-library(dplyr)
+library("dplyr")
 
 ## ------------------------------------------------------------------------
 library(textreuse)
@@ -9,7 +9,12 @@ head(minhash(c("turn tokens into", "tokens into hashes", "into hashes fast")))
 ## ------------------------------------------------------------------------
 dir <- system.file("extdata/ats", package = "textreuse")
 corpus <- TextReuseCorpus(dir = dir, tokenizer = tokenize_ngrams, n = 5,
-                          hash_func = minhash, keep_tokens = TRUE)
+                          minhash_func = minhash, keep_tokens = TRUE,
+                          progress = FALSE)
+
+## ------------------------------------------------------------------------
+head(minhashes(corpus[[1]]))
+length(minhashes(corpus[[1]]))
 
 ## ------------------------------------------------------------------------
 lsh_threshold(h = 200, b = 50)
@@ -20,18 +25,15 @@ lsh_probability(h = 240, b = 80, s = 0.25)
 lsh_probability(h = 240, b =  80, s = 0.75)
 
 ## ------------------------------------------------------------------------
-buckets <- lsh(corpus, bands = 80)
+buckets <- lsh(corpus, bands = 80, progress = FALSE)
 buckets
 
 ## ------------------------------------------------------------------------
+baxter_matches <- lsh_query(buckets, "calltounconv00baxt")
+baxter_matches
 candidates <- lsh_candidates(buckets)
 candidates
 
 ## ------------------------------------------------------------------------
-subset <- lsh_subset(candidates)
-corpus_subset <- corpus[subset]
-corpus_subset <- rehash(corpus_subset, hash_string)
-
-## ------------------------------------------------------------------------
-lsh_compare(candidates, corpus_subset, jaccard_similarity)
+lsh_compare(candidates, corpus, jaccard_similarity, progress = FALSE)
 

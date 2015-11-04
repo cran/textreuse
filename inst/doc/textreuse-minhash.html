@@ -10,7 +10,7 @@
 
 <meta name="author" content="Lincoln Mullen" />
 
-<meta name="date" content="2015-10-22" />
+<meta name="date" content="2015-11-04" />
 
 <title>Minhash and locality-sensitive hashing</title>
 
@@ -72,7 +72,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Minhash and locality-sensitive hashing</h1>
 <h4 class="author"><em>Lincoln Mullen</em></h4>
-<h4 class="date"><em>2015-10-22</em></h4>
+<h4 class="date"><em>2015-11-04</em></h4>
 </div>
 
 
@@ -82,31 +82,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 minhash &lt;-<span class="st"> </span><span class="kw">minhash_generator</span>(<span class="dt">n =</span> <span class="dv">240</span>, <span class="dt">seed =</span> <span class="dv">3552</span>)
 <span class="kw">head</span>(<span class="kw">minhash</span>(<span class="kw">c</span>(<span class="st">&quot;turn tokens into&quot;</span>, <span class="st">&quot;tokens into hashes&quot;</span>, <span class="st">&quot;into hashes fast&quot;</span>)))</code></pre></div>
 <pre><code>## [1] -1067902788  -349477925 -1306490031  -926753052 -1222296305 -1443723653</code></pre>
-<p>Now when we load our corpus, we will tokenize our texts as usual, but we will use our generated <code>minhash()</code> function to compute the hashes.</p>
+<p>Now when we load our corpus, we will tokenize our texts as usual, but we will use our generated <code>minhash()</code> function to compute the hashes. We specify that we want to create a minhash signature by passing our minhash function to the <code>minhash_func =</code> parameter.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dir &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/ats&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)
 corpus &lt;-<span class="st"> </span><span class="kw">TextReuseCorpus</span>(<span class="dt">dir =</span> dir, <span class="dt">tokenizer =</span> tokenize_ngrams, <span class="dt">n =</span> <span class="dv">5</span>,
-                          <span class="dt">hash_func =</span> minhash, <span class="dt">keep_tokens =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## Loading, tokenizing, and hashing 8 documents.</code></pre>
-<pre><code>## 
-  |                                                                       
-  |                                                                 |   0%
-  |                                                                       
-  |========                                                         |  12%
-  |                                                                       
-  |================                                                 |  25%
-  |                                                                       
-  |========================                                         |  38%
-  |                                                                       
-  |================================                                 |  50%
-  |                                                                       
-  |=========================================                        |  62%
-  |                                                                       
-  |=================================================                |  75%
-  |                                                                       
-  |=========================================================        |  88%
-  |                                                                       
-  |=================================================================| 100%</code></pre>
-<p>Now all our documents are represented by <code>n = 200</code> randomly selected and hashed shingles. Comparing those shingles should be the equivalent of finding the Jaccard similarity of the two documents. However, we still have the problem of pairwise comparison.</p>
+                          <span class="dt">minhash_func =</span> minhash, <span class="dt">keep_tokens =</span> <span class="ot">TRUE</span>,
+                          <span class="dt">progress =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p>We can verify that we have minhashes in our corpus:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">minhashes</span>(corpus[[<span class="dv">1</span>]]))</code></pre></div>
+<pre><code>## [1] -2147421589 -2147475954 -2147470602 -2147373716 -2147464099 -2147477501</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">minhashes</span>(corpus[[<span class="dv">1</span>]]))</code></pre></div>
+<pre><code>## [1] 240</code></pre>
+<p>Now all our documents are represented by <code>n = 240</code> randomly selected and hashed shingles. Comparing those shingles should be the equivalent of finding the Jaccard similarity of the two documents. However, we still have the problem of pairwise comparison.</p>
 <p>The locality-sensitive hashing algorithm, provided in this package by the <code>lsh()</code> function, solves this problem. LSH breaks the minhashes into a series of bands comprised of rows. For example, 200 minhashes might broken into 50 bands of 4 rows each. Each band is hashed to a bucket. If two documents have the exact same minhashes in a band, they will be hashed to the same bucket, and so will be considered candidate pairs. Each pair of documents has as many chances to be considered a candidate as their are bands, and the fewer rows there are in each band, the more likely it is that each document will match another.</p>
 <p>How likely is it, then, that we will detect a match? The probability of a match depends on the Jaccard similarity of a pair of documents. The more similar two documents are, the more likely they are to be considered candidates, which is what we want. The probability of a match is an S-curve (see Leskovec, Rajaraman, and Ullman), so there is a threshold Jaccard similarity above which documents are likely to be a match. We can calculate the likely threshold based on the number of minhashes and bands that we are using.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lsh_threshold</span>(<span class="dt">h =</span> <span class="dv">200</span>, <span class="dt">b =</span> <span class="dv">50</span>)</code></pre></div>
@@ -120,322 +106,8 @@ corpus &lt;-<span class="st"> </span><span class="kw">TextReuseCorpus</span>(<sp
 <pre><code>## [1] 1</code></pre>
 <p>These numbers seem reasonable for our purposes, so we will set the number of minhashes at 240 and the number of bands at 80.</p>
 <p>Now we can use the <code>lsh()</code> function to calculate the locality-sensitive hashes for our documents.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">buckets &lt;-<span class="st"> </span><span class="kw">lsh</span>(corpus, <span class="dt">bands =</span> <span class="dv">80</span>)</code></pre></div>
-<pre><code>## Calculating LSH buckets</code></pre>
-<pre><code>## 
-  |                                                                       
-  |                                                                 |   0%
-  |                                                                       
-  |                                                                 |   1%
-  |                                                                       
-  |=                                                                |   1%
-  |                                                                       
-  |=                                                                |   2%
-  |                                                                       
-  |==                                                               |   2%
-  |                                                                       
-  |==                                                               |   3%
-  |                                                                       
-  |==                                                               |   4%
-  |                                                                       
-  |===                                                              |   4%
-  |                                                                       
-  |===                                                              |   5%
-  |                                                                       
-  |====                                                             |   5%
-  |                                                                       
-  |====                                                             |   6%
-  |                                                                       
-  |====                                                             |   7%
-  |                                                                       
-  |=====                                                            |   7%
-  |                                                                       
-  |=====                                                            |   8%
-  |                                                                       
-  |======                                                           |   9%
-  |                                                                       
-  |======                                                           |  10%
-  |                                                                       
-  |=======                                                          |  10%
-  |                                                                       
-  |=======                                                          |  11%
-  |                                                                       
-  |========                                                         |  12%
-  |                                                                       
-  |========                                                         |  13%
-  |                                                                       
-  |=========                                                        |  13%
-  |                                                                       
-  |=========                                                        |  14%
-  |                                                                       
-  |=========                                                        |  15%
-  |                                                                       
-  |==========                                                       |  15%
-  |                                                                       
-  |==========                                                       |  16%
-  |                                                                       
-  |===========                                                      |  16%
-  |                                                                       
-  |===========                                                      |  17%
-  |                                                                       
-  |===========                                                      |  18%
-  |                                                                       
-  |============                                                     |  18%
-  |                                                                       
-  |============                                                     |  19%
-  |                                                                       
-  |=============                                                    |  19%
-  |                                                                       
-  |=============                                                    |  20%
-  |                                                                       
-  |=============                                                    |  21%
-  |                                                                       
-  |==============                                                   |  21%
-  |                                                                       
-  |==============                                                   |  22%
-  |                                                                       
-  |===============                                                  |  22%
-  |                                                                       
-  |===============                                                  |  23%
-  |                                                                       
-  |===============                                                  |  24%
-  |                                                                       
-  |================                                                 |  24%
-  |                                                                       
-  |================                                                 |  25%
-  |                                                                       
-  |=================                                                |  25%
-  |                                                                       
-  |=================                                                |  26%
-  |                                                                       
-  |=================                                                |  27%
-  |                                                                       
-  |==================                                               |  27%
-  |                                                                       
-  |==================                                               |  28%
-  |                                                                       
-  |===================                                              |  29%
-  |                                                                       
-  |===================                                              |  30%
-  |                                                                       
-  |====================                                             |  30%
-  |                                                                       
-  |====================                                             |  31%
-  |                                                                       
-  |=====================                                            |  32%
-  |                                                                       
-  |=====================                                            |  33%
-  |                                                                       
-  |======================                                           |  33%
-  |                                                                       
-  |======================                                           |  34%
-  |                                                                       
-  |======================                                           |  35%
-  |                                                                       
-  |=======================                                          |  35%
-  |                                                                       
-  |=======================                                          |  36%
-  |                                                                       
-  |========================                                         |  36%
-  |                                                                       
-  |========================                                         |  37%
-  |                                                                       
-  |========================                                         |  38%
-  |                                                                       
-  |=========================                                        |  38%
-  |                                                                       
-  |=========================                                        |  39%
-  |                                                                       
-  |==========================                                       |  39%
-  |                                                                       
-  |==========================                                       |  40%
-  |                                                                       
-  |==========================                                       |  41%
-  |                                                                       
-  |===========================                                      |  41%
-  |                                                                       
-  |===========================                                      |  42%
-  |                                                                       
-  |============================                                     |  42%
-  |                                                                       
-  |============================                                     |  43%
-  |                                                                       
-  |============================                                     |  44%
-  |                                                                       
-  |=============================                                    |  44%
-  |                                                                       
-  |=============================                                    |  45%
-  |                                                                       
-  |==============================                                   |  45%
-  |                                                                       
-  |==============================                                   |  46%
-  |                                                                       
-  |==============================                                   |  47%
-  |                                                                       
-  |===============================                                  |  47%
-  |                                                                       
-  |===============================                                  |  48%
-  |                                                                       
-  |================================                                 |  49%
-  |                                                                       
-  |================================                                 |  50%
-  |                                                                       
-  |=================================                                |  50%
-  |                                                                       
-  |=================================                                |  51%
-  |                                                                       
-  |==================================                               |  52%
-  |                                                                       
-  |==================================                               |  53%
-  |                                                                       
-  |===================================                              |  53%
-  |                                                                       
-  |===================================                              |  54%
-  |                                                                       
-  |===================================                              |  55%
-  |                                                                       
-  |====================================                             |  55%
-  |                                                                       
-  |====================================                             |  56%
-  |                                                                       
-  |=====================================                            |  56%
-  |                                                                       
-  |=====================================                            |  57%
-  |                                                                       
-  |=====================================                            |  58%
-  |                                                                       
-  |======================================                           |  58%
-  |                                                                       
-  |======================================                           |  59%
-  |                                                                       
-  |=======================================                          |  59%
-  |                                                                       
-  |=======================================                          |  60%
-  |                                                                       
-  |=======================================                          |  61%
-  |                                                                       
-  |========================================                         |  61%
-  |                                                                       
-  |========================================                         |  62%
-  |                                                                       
-  |=========================================                        |  62%
-  |                                                                       
-  |=========================================                        |  63%
-  |                                                                       
-  |=========================================                        |  64%
-  |                                                                       
-  |==========================================                       |  64%
-  |                                                                       
-  |==========================================                       |  65%
-  |                                                                       
-  |===========================================                      |  65%
-  |                                                                       
-  |===========================================                      |  66%
-  |                                                                       
-  |===========================================                      |  67%
-  |                                                                       
-  |============================================                     |  67%
-  |                                                                       
-  |============================================                     |  68%
-  |                                                                       
-  |=============================================                    |  69%
-  |                                                                       
-  |=============================================                    |  70%
-  |                                                                       
-  |==============================================                   |  70%
-  |                                                                       
-  |==============================================                   |  71%
-  |                                                                       
-  |===============================================                  |  72%
-  |                                                                       
-  |===============================================                  |  73%
-  |                                                                       
-  |================================================                 |  73%
-  |                                                                       
-  |================================================                 |  74%
-  |                                                                       
-  |================================================                 |  75%
-  |                                                                       
-  |=================================================                |  75%
-  |                                                                       
-  |=================================================                |  76%
-  |                                                                       
-  |==================================================               |  76%
-  |                                                                       
-  |==================================================               |  77%
-  |                                                                       
-  |==================================================               |  78%
-  |                                                                       
-  |===================================================              |  78%
-  |                                                                       
-  |===================================================              |  79%
-  |                                                                       
-  |====================================================             |  79%
-  |                                                                       
-  |====================================================             |  80%
-  |                                                                       
-  |====================================================             |  81%
-  |                                                                       
-  |=====================================================            |  81%
-  |                                                                       
-  |=====================================================            |  82%
-  |                                                                       
-  |======================================================           |  82%
-  |                                                                       
-  |======================================================           |  83%
-  |                                                                       
-  |======================================================           |  84%
-  |                                                                       
-  |=======================================================          |  84%
-  |                                                                       
-  |=======================================================          |  85%
-  |                                                                       
-  |========================================================         |  85%
-  |                                                                       
-  |========================================================         |  86%
-  |                                                                       
-  |========================================================         |  87%
-  |                                                                       
-  |=========================================================        |  87%
-  |                                                                       
-  |=========================================================        |  88%
-  |                                                                       
-  |==========================================================       |  89%
-  |                                                                       
-  |==========================================================       |  90%
-  |                                                                       
-  |===========================================================      |  90%
-  |                                                                       
-  |===========================================================      |  91%
-  |                                                                       
-  |============================================================     |  92%
-  |                                                                       
-  |============================================================     |  93%
-  |                                                                       
-  |=============================================================    |  93%
-  |                                                                       
-  |=============================================================    |  94%
-  |                                                                       
-  |=============================================================    |  95%
-  |                                                                       
-  |==============================================================   |  95%
-  |                                                                       
-  |==============================================================   |  96%
-  |                                                                       
-  |===============================================================  |  96%
-  |                                                                       
-  |===============================================================  |  97%
-  |                                                                       
-  |===============================================================  |  98%
-  |                                                                       
-  |================================================================ |  98%
-  |                                                                       
-  |================================================================ |  99%
-  |                                                                       
-  |=================================================================|  99%
-  |                                                                       
-  |=================================================================| 100%</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">buckets</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">buckets &lt;-<span class="st"> </span><span class="kw">lsh</span>(corpus, <span class="dt">bands =</span> <span class="dv">80</span>, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
+buckets</code></pre></div>
 <pre><code>## Source: local data frame [640 x 2]
 ## 
 ##                   doc                          buckets
@@ -452,7 +124,14 @@ corpus &lt;-<span class="st"> </span><span class="kw">TextReuseCorpus</span>(<sp
 ## 10 calltounconv00baxt 3ccdda855b41b7d695169a32ec4ceded
 ## ..                ...                              ...</code></pre>
 <p>Note that using the LSH method only requires us to calculate the signatures (or buckets) for each document one time. This implies that we can take several data frames of LSH signatures and bind their rows together (e.g., with <code>dplyr::bind_rows()</code>). This permits us to compute the signatures for only part of a corpus at a time, or to continue to add to the corpus. Note, however, that you <strong>must</strong> use the same minhash function, generating the same number of minhashes and using the same seed and you <strong>must</strong> use the same number of bands in order to get valid results.</p>
-<p>We can extract the potential matches from the cache using <code>lsh_candidates()</code> (an analog of <code>pairwise_candidates()</code>).</p>
+<p>We can extract the potential matches from the cache using <code>lsh_query()</code> or <code>lsh_candidates()</code>. The first function returns matches for only one document, specified by its ID; the second functions returns all potential pairs of matches.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">baxter_matches &lt;-<span class="st"> </span><span class="kw">lsh_query</span>(buckets, <span class="st">&quot;calltounconv00baxt&quot;</span>)
+baxter_matches</code></pre></div>
+<pre><code>## Source: local data frame [1 x 3]
+## 
+##                    a                      b score
+##                (chr)                  (chr) (dbl)
+## 1 calltounconv00baxt lifeofrevrichard00baxt    NA</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">candidates &lt;-<span class="st"> </span><span class="kw">lsh_candidates</span>(buckets)
 candidates</code></pre></div>
 <pre><code>## Source: local data frame [3 x 3]
@@ -463,22 +142,8 @@ candidates</code></pre></div>
 ## 2 practicalthought00nev thoughtsonpopery00nevi    NA
 ## 3        remember00palm remembermeorholy00palm    NA</code></pre>
 <p>Notice that LSH has identified the same three pairs of documents as potential matches that we found with pairwise comparisons, but did so much faster. But we do not have similarity scores; we only know that these documents are likely to have Jaccard similarity scores above the 0.232 threshold.</p>
-<p>We could compute Jaccard similarities using the minhashes, or we could retokenize and hash only the candidate documents. We will do the later, using the <code>lsh_subset()</code> function to get just the documents that we want and the <code>rehash()</code> function to compute hashes for all of the tokens in the subset corpus. (If we had not keep the tokens with <code>keep_tokens = TRUE</code> above, we would have to retokenize with <code>tokenize()</code> instead.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">subset &lt;-<span class="st"> </span><span class="kw">lsh_subset</span>(candidates)
-corpus_subset &lt;-<span class="st"> </span>corpus[subset]
-corpus_subset &lt;-<span class="st"> </span><span class="kw">rehash</span>(corpus_subset, hash_string)</code></pre></div>
 <p>Now we can use <code>lsh_compare()</code> to apply a similarity function to the candidate pairs of documents. Note that we only have to do 3 comparisons for all the candidates, instead of 28 pairs when comparing all 8 documents in the corpus pairwise.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lsh_compare</span>(candidates, corpus_subset, jaccard_similarity)</code></pre></div>
-<pre><code>## Making 3 comparisons.</code></pre>
-<pre><code>## 
-  |                                                                       
-  |                                                                 |   0%
-  |                                                                       
-  |======================                                           |  33%
-  |                                                                       
-  |===========================================                      |  67%
-  |                                                                       
-  |=================================================================| 100%</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lsh_compare</span>(candidates, corpus, jaccard_similarity, <span class="dt">progress =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <pre><code>## Source: local data frame [3 x 3]
 ## 
 ##                       a                      b     score
