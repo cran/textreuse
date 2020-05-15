@@ -6,10 +6,20 @@
 \alias{skipped}
 \title{TextReuseCorpus}
 \usage{
-TextReuseCorpus(paths, dir = NULL, text = NULL, meta = list(),
-  progress = interactive(), tokenizer = tokenize_ngrams, ...,
-  hash_func = hash_string, minhash_func = NULL, keep_tokens = FALSE,
-  keep_text = TRUE, skip_short = TRUE)
+TextReuseCorpus(
+  paths,
+  dir = NULL,
+  text = NULL,
+  meta = list(),
+  progress = interactive(),
+  tokenizer = tokenize_ngrams,
+  ...,
+  hash_func = hash_string,
+  minhash_func = NULL,
+  keep_tokens = FALSE,
+  keep_text = TRUE,
+  skip_short = TRUE
+)
 
 is.TextReuseCorpus(x)
 
@@ -90,4 +100,3 @@ corpus[["ca1851-match"]]
 \link[=TextReuseTextDocument-accessors]{Accessors for TextReuse
   objects}.
 }
-

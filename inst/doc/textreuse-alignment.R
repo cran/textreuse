@@ -1,4 +1,4 @@
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 shakespeare <- paste(
   "Haste still pays haste, and leisure answers leisure;",
   "Like doth quit like, and MEASURE still FOR MEASURE.",
@@ -14,7 +14,7 @@ critic <- paste(
   "Like doth cancel like, and measure still for measure.'",
   "These titular words sum up the meaning of the play.")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(textreuse)
 align_local(shakespeare, critic)
 

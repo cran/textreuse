@@ -4,14 +4,14 @@
 \name{textreuse-package}
 \alias{textreuse}
 \alias{textreuse-package}
-\title{Detect Text Reuse and Document Similarity}
+\title{textreuse: Detect Text Reuse and Document Similarity}
 \description{
 Tools for measuring similarity among documents and detecting
-passages which have been reused. Implements shingled n-gram, skip n-gram,
-and other tokenizers; similarity/dissimilarity functions; pairwise
-comparisons; minhash and locality sensitive hashing algorithms; and a
-version of the Smith-Waterman local alignment algorithm suitable for
-natural language.
+    passages which have been reused. Implements shingled n-gram, skip n-gram,
+    and other tokenizers; similarity/dissimilarity functions; pairwise
+    comparisons; minhash and locality sensitive hashing algorithms; and a
+    version of the Smith-Waterman local alignment algorithm suitable for
+    natural language.
 }
 \details{
 The best place to begin with this package in the introductory vignette.
@@ -27,7 +27,7 @@ specific paths for working with the package.
 
 \code{vignette("textreuse-alignment", package = "textreuse")}
 
-Another good place to beign with the package is the documentation for loading
+Another good place to begin with the package is the documentation for loading
 documents (\code{\link{TextReuseTextDocument}} and
 \code{\link{TextReuseCorpus}}), for \link{tokenizers},
 \link[=similarity-functions]{similarity functions}, and
@@ -55,4 +55,16 @@ The sample data provided in the \code{extdata/legal} directory is
   \href{http://books.google.com/books?id=4PHEAAAAIAAJ&pg=PA51#v=onepage&q&f=false}{Google
    Books}.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://docs.ropensci.org/textreuse}
+  \item \url{https://github.com/ropensci/textreuse}
+  \item Report bugs at \url{https://github.com/ropensci/textreuse/issues}
+}
 
+}
+\author{
+\strong{Maintainer}: Lincoln Mullen \email{lincoln@lincolnmullen.com} (\href{https://orcid.org/0000-0001-5103-6917}{ORCID})
+
+}

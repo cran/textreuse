@@ -12,7 +12,7 @@
 #'
 #' \code{vignette("textreuse-alignment", package = "textreuse")}
 #'
-#' Another good place to beign with the package is the documentation for loading
+#' Another good place to begin with the package is the documentation for loading
 #' documents (\code{\link{TextReuseTextDocument}} and
 #' \code{\link{TextReuseCorpus}}), for \link{tokenizers},
 #' \link[=similarity-functions]{similarity functions}, and
@@ -39,7 +39,7 @@
 #'   \href{http://books.google.com/books?id=4PHEAAAAIAAJ&pg=PA51#v=onepage&q&f=false}{Google
 #'    Books}.
 #'
-#' @useDynLib textreuse
+#' @useDynLib textreuse, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
 #' @import RcppProgress
 #' @import stringr
@@ -48,5 +48,5 @@
 "_PACKAGE"
 
 if (getRversion() >= "2.15.1") {
- utils::globalVariables(c("doc.x", "doc.y", "up", "dn", "a", "b"))
+ utils::globalVariables(c("doc.x", "doc.y", "up", "dn", "a", "b", ".data", "band", "hash"))
 }

@@ -4,8 +4,15 @@
 \alias{align_local}
 \title{Local alignment of natural language texts}
 \usage{
-align_local(a, b, match = 2L, mismatch = -1L, gap = -1L,
-  edit_mark = "#", progress = interactive())
+align_local(
+  a,
+  b,
+  match = 2L,
+  mismatch = -1L,
+  gap = -1L,
+  edit_mark = "#",
+  progress = interactive()
+)
 }
 \arguments{
 \item{a}{A character vector of length one, or a
@@ -84,4 +91,3 @@ For a useful description of the algorithm, see
   IEEE International Conference on Big Data, 2013,
   \url{http://hdl.handle.net/2047/d20004858}.
 }
-

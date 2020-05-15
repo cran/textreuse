@@ -4,8 +4,7 @@
 \alias{pairwise_compare}
 \title{Pairwise comparisons among documents in a corpus}
 \usage{
-pairwise_compare(corpus, f, ..., directional = FALSE,
-  progress = interactive())
+pairwise_compare(corpus, f, ..., directional = FALSE, progress = interactive())
 }
 \arguments{
 \item{corpus}{A \code{\link{TextReuseCorpus}}.}
@@ -54,4 +53,3 @@ pairwise_compare(corpus, ratio_of_matches, directional = TRUE)
 See these document comparison functions,
   \code{\link{jaccard_similarity}}, \code{\link{ratio_of_matches}}.
 }
-

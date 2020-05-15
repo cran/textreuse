@@ -1,10 +1,10 @@
 Package: textreuse
 Type: Package
 Title: Detect Text Reuse and Document Similarity
-Version: 0.1.4
-Date: 2016-11-28
+Version: 0.1.5
+Date: 2020-05-14
 Authors@R: c(person("Lincoln", "Mullen", role = c("aut", "cre"),
-    email = "lincoln@lincolnmullen.com"))
+    email = "lincoln@lincolnmullen.com", comment = c(ORCID = "0000-0001-5103-6917")))
 Description: Tools for measuring similarity among documents and detecting
     passages which have been reused. Implements shingled n-gram, skip n-gram,
     and other tokenizers; similarity/dissimilarity functions; pairwise
@@ -13,20 +13,22 @@ Description: Tools for measuring similarity among documents and detecting
     natural language.
 License: MIT + file LICENSE
 LazyData: TRUE
-URL: https://github.com/ropensci/textreuse
+URL: https://docs.ropensci.org/textreuse,
+        https://github.com/ropensci/textreuse
 BugReports: https://github.com/ropensci/textreuse/issues
 VignetteBuilder: knitr
 Depends: R (>= 3.1.1)
-Imports: assertthat (>= 0.1), digest (>= 0.6.8), dplyr (>= 0.4.3), NLP
+Imports: assertthat (>= 0.1), digest (>= 0.6.8), dplyr (>= 0.8.0), NLP
         (>= 0.1.8), Rcpp (>= 0.12.0), RcppProgress (>= 0.1), stringr
-        (>= 1.0.0), tidyr (>= 0.3.1)
+        (>= 1.0.0), tibble (>= 3.0.1), tidyr (>= 0.3.1)
 Suggests: testthat (>= 0.11.0), knitr (>= 1.11), rmarkdown (>= 0.8),
         covr
 LinkingTo: BH, Rcpp, RcppProgress
-RoxygenNote: 5.0.1
+RoxygenNote: 7.1.0
+Encoding: UTF-8
 NeedsCompilation: yes
-Packaged: 2016-11-28 14:20:28 UTC; lmullen
-Author: Lincoln Mullen [aut, cre]
+Packaged: 2020-05-15 14:43:54 UTC; lmullen
+Author: Lincoln Mullen [aut, cre] (<https://orcid.org/0000-0001-5103-6917>)
 Maintainer: Lincoln Mullen <lincoln@lincolnmullen.com>
 Repository: CRAN
-Date/Publication: 2016-11-28 16:54:10
+Date/Publication: 2020-05-15 15:50:02 UTC

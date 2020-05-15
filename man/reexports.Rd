@@ -2,18 +2,18 @@
 % Please edit documentation in R/TextReuseTextDocument.R
 \docType{import}
 \name{reexports}
-\alias{content}
-\alias{content<-}
+\alias{reexports}
 \alias{meta}
 \alias{meta<-}
-\alias{reexports}
+\alias{content}
+\alias{content<-}
 \title{Objects exported from other packages}
+\keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{NLP}{\code{\link[NLP]{meta}}, \code{\link[NLP]{meta<-}}, \code{\link[NLP]{content}}, \code{\link[NLP]{content<-}}}
+  \item{NLP}{\code{\link[NLP]{content}}, \code{\link[NLP]{content<-}}, \code{\link[NLP]{meta}}, \code{\link[NLP]{meta<-}}}
 }}
-\keyword{internal}
 
