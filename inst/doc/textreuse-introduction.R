@@ -1,7 +1,7 @@
 ## ----eval=FALSE---------------------------------------------------------------
-#  vignette("textreuse-pairwise", package = "textreuse")
-#  vignette("textreuse-minhash", package = "textreuse")
-#  vignette("textreuse-alignment", package = "textreuse")
+# vignette("textreuse-pairwise", package = "textreuse")
+# vignette("textreuse-minhash", package = "textreuse")
+# vignette("textreuse-alignment", package = "textreuse")
 
 ## -----------------------------------------------------------------------------
 library(textreuse)
@@ -69,5 +69,5 @@ jaccard_bag_similarity(a, b)
 ratio_of_matches(a, b)
 
 ## ----eval = FALSE-------------------------------------------------------------
-#  options("mc.cores" = 4L)
+# options("mc.cores" = 4L)
 

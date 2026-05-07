@@ -1,4 +1,4 @@
-#'@details
+#' @details
 #' The best place to begin with this package in the introductory vignette.
 #'
 #' \code{vignette("textreuse-introduction", package = "textreuse")}
@@ -18,11 +18,9 @@
 #' \link[=similarity-functions]{similarity functions}, and
 #' \link[=lsh]{locality-sensitive hashing}.
 #'
-#' @references The sample data provided in the \code{extdata/legal} directory is
-#'   taken from a
-#'   \href{http://lincolnmullen.com/blog/corpus-of-american-tract-society-publications/}{corpus
-#'    of American Tract Society publications} from the nineteen-century,
-#'   gathered from the \href{https://archive.org/}{Internet Archive}.
+#' @references The sample data provided in the \code{extdata/ats} directory
+#'   contains nineteenth-century American Tract Society publications gathered
+#'   from the \href{https://archive.org/}{Internet Archive}.
 #'
 #'   The sample data provided in the \code{extdata/legal} directory, are taken
 #'   from the following nineteenth-century codes of civil procedure from
@@ -48,5 +46,5 @@
 "_PACKAGE"
 
 if (getRversion() >= "2.15.1") {
- utils::globalVariables(c("doc.x", "doc.y", "up", "dn", "a", "b", ".data", "band", "hash"))
+  utils::globalVariables(c("doc.x", "doc.y", "up", "dn", "a", "b", ".data", "band", "hash"))
 }

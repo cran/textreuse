@@ -11,8 +11,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Lincoln Mullen" />
+<meta name="author" content="Yaoxiang Li" />
 
-<meta name="date" content="2020-05-15" />
+<meta name="date" content="2026-05-06" />
 
 <title>Introduction to the textreuse package</title>
 
@@ -30,12 +31,31 @@ document.addEventListener('DOMContentLoaded', function(e) {
 });
 </script>
 
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
 
-<style type="text/css">code{white-space: pre;}</style>
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -47,55 +67,54 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-  { counter-reset: source-line 0; }
+{ counter-reset: source-line 0; }
 pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
+{ position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
 div.sourceCode
-  {   }
+{ }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -104,13 +123,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -118,6 +144,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 })();
 </script>
+
 
 
 
@@ -315,30 +342,47 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Introduction to the textreuse package</h1>
 <h4 class="author">Lincoln Mullen</h4>
-<h4 class="date">2020-05-15</h4>
+<h4 class="author">Yaoxiang Li</h4>
+<h4 class="date">2026-05-06</h4>
 
 
 
-<p>The textreuse package provides classes and functions to detect document similarity and text reuse in text corpora. This introductory vignette provides details on the <code>TextReuseTextDocument</code> and <code>TextReuseCorpus</code> classes, as well as functions for tokenizing, hashing, and measuring similarity. See the pairwise, minhash/LSH, or alignment vignettes for details on solving text similarity problems.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">vignette</span>(<span class="st">&quot;textreuse-pairwise&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">vignette</span>(<span class="st">&quot;textreuse-minhash&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">vignette</span>(<span class="st">&quot;textreuse-alignment&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)</span></code></pre></div>
-<p>For these vignette we will use a small corpus of eight documents published by the <a href="https://en.wikipedia.org/wiki/American_Tract_Society">American Tract Society</a> and available from the Internet Archive. The <a href="http://lincolnmullen.com/blog/corpus-of-american-tract-society-publications/">full corpus</a> is also available to be downloaded if you wish to test the package.</p>
+<p>The textreuse package provides classes and functions to detect
+document similarity and text reuse in text corpora. This introductory
+vignette provides details on the <code>TextReuseTextDocument</code> and
+<code>TextReuseCorpus</code> classes, as well as functions for
+tokenizing, hashing, and measuring similarity. See the pairwise,
+minhash/LSH, or alignment vignettes for details on solving text
+similarity problems.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">&quot;textreuse-pairwise&quot;</span>, <span class="at">package =</span> <span class="st">&quot;textreuse&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">&quot;textreuse-minhash&quot;</span>, <span class="at">package =</span> <span class="st">&quot;textreuse&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">&quot;textreuse-alignment&quot;</span>, <span class="at">package =</span> <span class="st">&quot;textreuse&quot;</span>)</span></code></pre></div>
+<p>For this vignette we will use a small corpus of eight documents
+published by the <a href="https://en.wikipedia.org/wiki/American_Tract_Society">American
+Tract Society</a> and available from the Internet Archive.</p>
 <div id="textreuse-classes" class="section level2">
 <h2>TextReuse classes</h2>
 <div id="textreusetextdocument" class="section level3">
 <h3>TextReuseTextDocument</h3>
-<p>The most basic class provided by this package is the <code>TextReuseTextDocument</code> class. This class contains the text of a document and its metadata. When the document is loaded, the text is also tokenized. (See the section on tokenizers below.) Those tokens are then hashed using a hash function. By default the hashes are retained and the tokens are discarded, since using only hashes results in a significant memory savings.</p>
-<p>Here we load a file into a <code>TextReuseTextDocument</code> and tokenize it into shingled n-grams, adding an option to retain the tokens.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(textreuse)</span>
-<span id="cb2-2"><a href="#cb2-2"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/ats/remember00palm.txt&quot;</span>, </span>
-<span id="cb2-3"><a href="#cb2-3"></a>                    <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)</span>
-<span id="cb2-4"><a href="#cb2-4"></a>doc &lt;-<span class="st"> </span><span class="kw">TextReuseTextDocument</span>(<span class="dt">file =</span> file, <span class="dt">meta =</span> <span class="kw">list</span>(<span class="st">&quot;publisher&quot;</span> =<span class="st"> &quot;ATS&quot;</span>),</span>
-<span id="cb2-5"><a href="#cb2-5"></a>                             <span class="dt">tokenizer =</span> tokenize_ngrams, <span class="dt">n =</span> <span class="dv">5</span>,</span>
-<span id="cb2-6"><a href="#cb2-6"></a>                             <span class="dt">keep_tokens =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb2-7"><a href="#cb2-7"></a>doc</span></code></pre></div>
+<p>The most basic class provided by this package is the
+<code>TextReuseTextDocument</code> class. This class contains the text
+of a document and its metadata. When the document is loaded, the text is
+also tokenized. (See the section on tokenizers below.) Those tokens are
+then hashed using a hash function. By default the hashes are retained
+and the tokens are discarded, since using only hashes results in a
+significant memory savings.</p>
+<p>Here we load a file into a <code>TextReuseTextDocument</code> and
+tokenize it into shingled n-grams, adding an option to retain the
+tokens.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(textreuse)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata/ats/remember00palm.txt&quot;</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>                    <span class="at">package =</span> <span class="st">&quot;textreuse&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>doc <span class="ot">&lt;-</span> <span class="fu">TextReuseTextDocument</span>(<span class="at">file =</span> file, <span class="at">meta =</span> <span class="fu">list</span>(<span class="st">&quot;publisher&quot;</span> <span class="ot">=</span> <span class="st">&quot;ATS&quot;</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>                             <span class="at">tokenizer =</span> tokenize_ngrams, <span class="at">n =</span> <span class="dv">5</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>                             <span class="at">keep_tokens =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>doc</span></code></pre></div>
 <pre><code>## TextReuseTextDocument
-## file : /private/var/folders/vn/mfg6b6pd33s8grnh8nwcf43r0000gn/T/RtmpDMTxet/Rinst5916123cb63e/textreuse/extdata/ats/remember00palm.txt 
+## file : C:/Users/Bach/AppData/Local/Temp/Rtmp0aDtuq/Rinst3ed04ae3318e/textreuse/extdata/ats/remember00palm.txt 
 ## hash_func : hash_string 
 ## id : remember00palm 
 ## publisher : ATS 
@@ -353,10 +397,14 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## Depositories, 28 Cornhill, Boston ; and 13 Biblb House, 
 ## Astor Place, New York. 
 ## Entered, according to Act of Congress, in the year 1865</code></pre>
-<p>We can see details of the document with accessor functions. These are derived from the S3 virtual class <code>TextDocument</code> in the <a href="https://cran.r-project.org/package=NLP">NLP</a> package. Notice that an ID has been assigned to the document based on the filename (without the extension). The name of the tokenizer and hash functions are also saved in the metadata.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">meta</span>(doc)</span></code></pre></div>
+<p>We can see details of the document with accessor functions. These are
+derived from the S3 virtual class <code>TextDocument</code> in the <a href="https://cran.r-project.org/package=NLP">NLP</a> package. Notice
+that an ID has been assigned to the document based on the filename
+(without the extension). The name of the tokenizer and hash functions
+are also saved in the metadata.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">meta</span>(doc)</span></code></pre></div>
 <pre><code>## $file
-## [1] &quot;/private/var/folders/vn/mfg6b6pd33s8grnh8nwcf43r0000gn/T/RtmpDMTxet/Rinst5916123cb63e/textreuse/extdata/ats/remember00palm.txt&quot;
+## [1] &quot;C:/Users/Bach/AppData/Local/Temp/Rtmp0aDtuq/Rinst3ed04ae3318e/textreuse/extdata/ats/remember00palm.txt&quot;
 ## 
 ## $hash_func
 ## [1] &quot;hash_string&quot;
@@ -369,45 +417,69 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## 
 ## $tokenizer
 ## [1] &quot;tokenize_ngrams&quot;</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">meta</span>(doc, <span class="st">&quot;id&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">meta</span>(doc, <span class="st">&quot;id&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;remember00palm&quot;</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">meta</span>(doc, <span class="st">&quot;date&quot;</span>) &lt;-<span class="st"> </span><span class="dv">1865</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">head</span>(<span class="kw">tokens</span>(doc))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">meta</span>(doc, <span class="st">&quot;date&quot;</span>) <span class="ot">&lt;-</span> <span class="dv">1865</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">tokens</span>(doc))</span></code></pre></div>
 <pre><code>## [1] &quot;remember by rat palmer boston&quot;       
 ## [2] &quot;by rat palmer boston the&quot;            
 ## [3] &quot;rat palmer boston the american&quot;      
 ## [4] &quot;palmer boston the american tract&quot;    
 ## [5] &quot;boston the american tract soci&quot;      
 ## [6] &quot;the american tract soci depositories&quot;</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">head</span>(<span class="kw">hashes</span>(doc))</span></code></pre></div>
-<pre><code>## [1]   -96275747 -1721204321   707361410  -626087009  -532862870   141807655</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">wordcount</span>(doc)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">hashes</span>(doc))</span></code></pre></div>
+<pre><code>## [1]  1603439917 -1208020871  1117958556 -1973578767  1310564160  1350652178</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">wordcount</span>(doc)</span></code></pre></div>
 <pre><code>## [1] 11399</code></pre>
-<p>The <code>tokens()</code> and <code>hashes()</code> function return the tokens and hashes associated with the document. The <code>meta()</code> function returns a named list of all the metadata fields. If that function is called with a specific ID, as in <code>meta(doc, &quot;myfield&quot;)</code>, then the value for only that field is returned. You can also assign to the metadata as a whole or a specific field, as in the example above.</p>
-<p>In addition the <code>content()</code> function provides the unprocessed text of the document.</p>
-<p>The assumption is that is that you want to tokenize and hash the tokens from the start. If, however, you wish to do any of those steps yourself, you can load a document with <code>tokenizer = NULL</code>, then use <code>tokenize()</code> or <code>rehash()</code> to recompute the tokens and hashes.</p>
-<p>Note that a <code>TextReuseTextDocument</code> can actually contain two kinds of hashes. The <code>hashes()</code> accessor gives you integer representations of each of the tokens in the document: if there are 100,000 tokens in the document, there will be 100,000 hashes. The <code>minhashes()</code> accessor gives you a signature that represents the document as a whole but not the specific tokens within it. See the minhash vignette for details: <code>vignette(&quot;textreuse-minhash&quot;)</code>.</p>
+<p>The <code>tokens()</code> and <code>hashes()</code> function return
+the tokens and hashes associated with the document. The
+<code>meta()</code> function returns a named list of all the metadata
+fields. If that function is called with a specific ID, as in
+<code>meta(doc, &quot;myfield&quot;)</code>, then the value for only that field is
+returned. You can also assign to the metadata as a whole or a specific
+field, as in the example above.</p>
+<p>In addition the <code>content()</code> function provides the
+unprocessed text of the document.</p>
+<p>The assumption is that is that you want to tokenize and hash the
+tokens from the start. If, however, you wish to do any of those steps
+yourself, you can load a document with <code>tokenizer = NULL</code>,
+then use <code>tokenize()</code> or <code>rehash()</code> to recompute
+the tokens and hashes.</p>
+<p>Note that a <code>TextReuseTextDocument</code> can actually contain
+two kinds of hashes. The <code>hashes()</code> accessor gives you
+integer representations of each of the tokens in the document: if there
+are 100,000 tokens in the document, there will be 100,000 hashes. The
+<code>minhashes()</code> accessor gives you a signature that represents
+the document as a whole but not the specific tokens within it. See the
+minhash vignette for details:
+<code>vignette(&quot;textreuse-minhash&quot;)</code>.</p>
 </div>
 <div id="textreusecorpus" class="section level3">
 <h3>TextReuseCorpus</h3>
-<p>The class <code>TextReuseCorpus</code> provides a list of <code>TextReuseTextDocuments</code>. It derives from the S3 virtual class <code>Corpus</code> in the <a href="https://cran.r-project.org/package=tm">tm</a> package. It can be created from a directory of files (or by providing a vector of paths to files).</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>dir &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/ats&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;textreuse&quot;</span>)</span>
-<span id="cb14-2"><a href="#cb14-2"></a>corpus &lt;-<span class="st"> </span><span class="kw">TextReuseCorpus</span>(<span class="dt">dir =</span> dir, <span class="dt">tokenizer =</span> tokenize_ngrams, <span class="dt">n =</span> <span class="dv">5</span>,</span>
-<span id="cb14-3"><a href="#cb14-3"></a>                          <span class="dt">progress =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb14-4"><a href="#cb14-4"></a>corpus</span></code></pre></div>
+<p>The class <code>TextReuseCorpus</code> provides a list of
+<code>TextReuseTextDocuments</code>. It derives from the S3 virtual
+class <code>Corpus</code> in the <a href="https://cran.r-project.org/package=tm">tm</a> package. It can be
+created from a directory of files (or by providing a vector of paths to
+files).</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>dir <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata/ats&quot;</span>, <span class="at">package =</span> <span class="st">&quot;textreuse&quot;</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>corpus <span class="ot">&lt;-</span> <span class="fu">TextReuseCorpus</span>(<span class="at">dir =</span> dir, <span class="at">tokenizer =</span> tokenize_ngrams, <span class="at">n =</span> <span class="dv">5</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>                          <span class="at">progress =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>corpus</span></code></pre></div>
 <pre><code>## TextReuseCorpus
 ## Number of documents: 8 
 ## hash_func : hash_string 
 ## tokenizer : tokenize_ngrams</code></pre>
-<p>The names of the items in a <code>TextReuseCorpus</code> are the IDs of the documents. You can use these IDs to subset the corpus or to retrieve specific documents.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">names</span>(corpus)</span></code></pre></div>
+<p>The names of the items in a <code>TextReuseCorpus</code> are the IDs
+of the documents. You can use these IDs to subset the corpus or to
+retrieve specific documents.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">names</span>(corpus)</span></code></pre></div>
 <pre><code>## [1] &quot;calltounconv00baxt&quot;        &quot;gospeltruth00whit&quot;        
 ## [3] &quot;lifeofrevrichard00baxt&quot;    &quot;memoirjamesbrai00ricegoog&quot;
 ## [5] &quot;practicalthought00nev&quot;     &quot;remember00palm&quot;           
 ## [7] &quot;remembermeorholy00palm&quot;    &quot;thoughtsonpopery00nevi&quot;</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>corpus[[<span class="st">&quot;remember00palm&quot;</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>corpus[[<span class="st">&quot;remember00palm&quot;</span>]]</span></code></pre></div>
 <pre><code>## TextReuseTextDocument
-## file : /private/var/folders/vn/mfg6b6pd33s8grnh8nwcf43r0000gn/T/RtmpDMTxet/Rinst5916123cb63e/textreuse/extdata/ats/remember00palm.txt 
+## file : C:/Users/Bach/AppData/Local/Temp/Rtmp0aDtuq/Rinst3ed04ae3318e/textreuse/extdata/ats/remember00palm.txt 
 ## hash_func : hash_string 
 ## id : remember00palm 
 ## minhash_func : 
@@ -422,39 +494,48 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## Depositories, 28 Cornhill, Boston ; and 13 Biblb House, 
 ## Astor Place, New York. 
 ## Entered, according to Act of Congress, in the year 1865</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>corpus[<span class="kw">c</span>(<span class="st">&quot;calltounconv00baxt&quot;</span>, <span class="st">&quot;lifeofrevrichard00baxt&quot;</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>corpus[<span class="fu">c</span>(<span class="st">&quot;calltounconv00baxt&quot;</span>, <span class="st">&quot;lifeofrevrichard00baxt&quot;</span>)]</span></code></pre></div>
 <pre><code>## TextReuseCorpus
 ## Number of documents: 2 
 ## hash_func : hash_string 
 ## tokenizer : tokenize_ngrams</code></pre>
-<p>Accessor functions such as <code>meta()</code>, <code>tokens()</code>, <code>hashes()</code>, and <code>wordcount()</code> have methods that work on corpora.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">wordcount</span>(corpus)</span></code></pre></div>
+<p>Accessor functions such as <code>meta()</code>,
+<code>tokens()</code>, <code>hashes()</code>, and
+<code>wordcount()</code> have methods that work on corpora.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">wordcount</span>(corpus)</span></code></pre></div>
 <pre><code>##        calltounconv00baxt         gospeltruth00whit    lifeofrevrichard00baxt 
-##                    134616                     16593                     44283 
+##                    134616                     16595                     44285 
 ## memoirjamesbrai00ricegoog     practicalthought00nev            remember00palm 
-##                    131939                    124544                     11399 
+##                    131949                    124545                     11399 
 ##    remembermeorholy00palm    thoughtsonpopery00nevi 
-##                     11532                     64758</code></pre>
-<p>Note that when creating a corpus, very short or empty documents will be skipped with a warning. A document must have enough words to create at least two n-grams. For example, if five-grams are desired, then the document must have at least six words.</p>
+##                     11533                     64760</code></pre>
+<p>Note that when creating a corpus, very short or empty documents will
+be skipped with a warning. A document must have enough words to create
+at least two n-grams. For example, if five-grams are desired, then the
+document must have at least six words.</p>
 </div>
 </div>
 <div id="tokenizers" class="section level2">
 <h2>Tokenizers</h2>
-<p>One of the steps that is performed when loading a <code>TextReuseTextDocument</code>, either individual or in a corpus, is tokenization. Tokenization breaks up a text into pieces, often overlapping. These pieces are the features which are compared when measuring document similarity.</p>
+<p>One of the steps that is performed when loading a
+<code>TextReuseTextDocument</code>, either individual or in a corpus, is
+tokenization. Tokenization breaks up a text into pieces, often
+overlapping. These pieces are the features which are compared when
+measuring document similarity.</p>
 <p>The textreuse package provides a number of tokenizers.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>text &lt;-<span class="st"> &quot;How many roads must a man walk down</span><span class="ch">\n</span><span class="st">Before you&#39;ll call him a man?&quot;</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a></span>
-<span id="cb24-3"><a href="#cb24-3"></a><span class="kw">tokenize_words</span>(text)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>text <span class="ot">&lt;-</span> <span class="st">&quot;How many roads must a man walk down</span><span class="sc">\n</span><span class="st">Before you&#39;ll call him a man?&quot;</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a><span class="fu">tokenize_words</span>(text)</span></code></pre></div>
 <pre><code>##  [1] &quot;how&quot;    &quot;many&quot;   &quot;roads&quot;  &quot;must&quot;   &quot;a&quot;      &quot;man&quot;    &quot;walk&quot;   &quot;down&quot;  
 ##  [9] &quot;before&quot; &quot;you&#39;ll&quot; &quot;call&quot;   &quot;him&quot;    &quot;a&quot;      &quot;man&quot;</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">tokenize_sentences</span>(text)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">tokenize_sentences</span>(text)</span></code></pre></div>
 <pre><code>## [1] &quot;how many roads must a man walk down&quot; &quot;before you ll call him a man&quot;</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">tokenize_ngrams</span>(text, <span class="dt">n =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">tokenize_ngrams</span>(text, <span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;how many roads&quot;     &quot;many roads must&quot;    &quot;roads must a&quot;      
 ##  [4] &quot;must a man&quot;         &quot;a man walk&quot;         &quot;man walk down&quot;     
 ##  [7] &quot;walk down before&quot;   &quot;down before you&#39;ll&quot; &quot;before you&#39;ll call&quot;
 ## [10] &quot;you&#39;ll call him&quot;    &quot;call him a&quot;         &quot;him a man&quot;</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="kw">tokenize_skip_ngrams</span>(text, <span class="dt">n =</span> <span class="dv">3</span>, <span class="dt">k =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">tokenize_skip_ngrams</span>(text, <span class="at">n =</span> <span class="dv">3</span>, <span class="at">k =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;how must walk&quot;      &quot;many a down&quot;        &quot;roads man before&quot;  
 ##  [4] &quot;must walk you&#39;ll&quot;   &quot;a down call&quot;        &quot;man before him&quot;    
 ##  [7] &quot;walk you&#39;ll a&quot;      &quot;down call man&quot;      &quot;how roads a&quot;       
@@ -465,59 +546,88 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## [22] &quot;must a man&quot;         &quot;a man walk&quot;         &quot;man walk down&quot;     
 ## [25] &quot;walk down before&quot;   &quot;down before you&#39;ll&quot; &quot;before you&#39;ll call&quot;
 ## [28] &quot;you&#39;ll call him&quot;    &quot;call him a&quot;         &quot;him a man&quot;</code></pre>
-<p>You can write your own tokenizers or use tokenizers from other packages. They should accept a character vector as their first argument.</p>
-<p>As an example, we will write a tokenizer function using the  package which splits a text on new lines, perhaps useful for poetry. Notice that the function takes a single string and returns a character vector with one element for each line. (A more robust tokenizer might strip blank lines and punctuation, include an option for lowercasing the text, and check for the validity of arguments.)</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>poem &lt;-<span class="st"> &quot;Roses are red</span><span class="ch">\n</span><span class="st">Violets are blue</span><span class="ch">\n</span><span class="st">I like using R</span><span class="ch">\n</span><span class="st">And you should too&quot;</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a><span class="kw">cat</span>(poem)</span></code></pre></div>
+<p>You can write your own tokenizers or use tokenizers from other
+packages. They should accept a character vector as their first
+argument.</p>
+<p>As an example, we will write a tokenizer function using the package
+which splits a text on new lines, perhaps useful for poetry. Notice that
+the function takes a single string and returns a character vector with
+one element for each line. (A more robust tokenizer might strip blank
+lines and punctuation, include an option for lowercasing the text, and
+check for the validity of arguments.)</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>poem <span class="ot">&lt;-</span> <span class="st">&quot;Roses are red</span><span class="sc">\n</span><span class="st">Violets are blue</span><span class="sc">\n</span><span class="st">I like using R</span><span class="sc">\n</span><span class="st">And you should too&quot;</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a><span class="fu">cat</span>(poem)</span></code></pre></div>
 <pre><code>## Roses are red
 ## Violets are blue
 ## I like using R
 ## And you should too</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>tokenize_lines &lt;-<span class="st"> </span><span class="cf">function</span>(string) {</span>
-<span id="cb34-2"><a href="#cb34-2"></a>  stringr<span class="op">::</span><span class="kw">str_split</span>(string, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">+&quot;</span>)[[<span class="dv">1</span>]]</span>
-<span id="cb34-3"><a href="#cb34-3"></a>}</span>
-<span id="cb34-4"><a href="#cb34-4"></a></span>
-<span id="cb34-5"><a href="#cb34-5"></a><span class="kw">tokenize_lines</span>(poem)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>tokenize_lines <span class="ot">&lt;-</span> <span class="cf">function</span>(string) {</span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>  stringr<span class="sc">::</span><span class="fu">str_split</span>(string, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">+&quot;</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>}</span>
+<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a><span class="fu">tokenize_lines</span>(poem)</span></code></pre></div>
 <pre><code>## [1] &quot;Roses are red&quot;      &quot;Violets are blue&quot;   &quot;I like using R&quot;    
 ## [4] &quot;And you should too&quot;</code></pre>
 </div>
 <div id="hash-functions" class="section level2">
 <h2>Hash functions</h2>
-<p>This package provides one function to hash tokens to integers, <code>hash_string()</code>.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">hash_string</span>(<span class="kw">tokenize_words</span>(text))</span></code></pre></div>
-<pre><code>##  [1]   -78131211  -909288800  -647481819  -909500956 -1640531430   -78235283
-##  [7]  -904724921  -889252160   317438038   937035765  -890718890   -78132909
-## [13] -1640531430   -78235283</code></pre>
-<p>You can write your own hash functions, or use those provided by the <a href="https://cran.r-project.org/package=digest">digest</a> package.</p>
+<p>This package provides one function to hash tokens to integers,
+<code>hash_string()</code>.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="fu">hash_string</span>(<span class="fu">tokenize_words</span>(text))</span></code></pre></div>
+<pre><code>##  [1] -1918507530  -727342581 -1125663377   258658140   -11612900  1695112593
+##  [7] -1411833952 -1120374007   888404863  -693828095  -290800936  2118188342
+## [13]   -11612900  1695112593</code></pre>
+<p>You can write your own hash functions, or use those provided by the
+<a href="https://cran.r-project.org/package=digest">digest</a>
+package.</p>
 </div>
 <div id="comparison-functions" class="section level2">
 <h2>Comparison functions</h2>
-<p>This package provides a number of comparison functions for measuring similarity. These functions take either a set (in which each token is counted one time) or a bag (in which each token is counted as many times as it appears) and compares it to another set or bag.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>a &lt;-<span class="st"> </span><span class="kw">tokenize_words</span>(<span class="kw">paste</span>(<span class="st">&quot;How does it feel, how does it feel?&quot;</span>,</span>
-<span id="cb38-2"><a href="#cb38-2"></a>                          <span class="st">&quot;To be without a home&quot;</span>,</span>
-<span id="cb38-3"><a href="#cb38-3"></a>                          <span class="st">&quot;Like a complete unknown, like a rolling stone&quot;</span>))</span>
-<span id="cb38-4"><a href="#cb38-4"></a>b &lt;-<span class="st"> </span><span class="kw">tokenize_words</span>(<span class="kw">paste</span>(<span class="st">&quot;How does it feel, how does it feel?&quot;</span>,</span>
-<span id="cb38-5"><a href="#cb38-5"></a>                          <span class="st">&quot;To be on your own, with no direction home&quot;</span>,</span>
-<span id="cb38-6"><a href="#cb38-6"></a>                          <span class="st">&quot;A complete unknown, like a rolling stone&quot;</span>))</span>
-<span id="cb38-7"><a href="#cb38-7"></a></span>
-<span id="cb38-8"><a href="#cb38-8"></a><span class="kw">jaccard_similarity</span>(a, b)</span></code></pre></div>
+<p>This package provides a number of comparison functions for measuring
+similarity. These functions take either a set (in which each token is
+counted one time) or a bag (in which each token is counted as many times
+as it appears) and compares it to another set or bag.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">tokenize_words</span>(<span class="fu">paste</span>(<span class="st">&quot;How does it feel, how does it feel?&quot;</span>,</span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a>                          <span class="st">&quot;To be without a home&quot;</span>,</span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a>                          <span class="st">&quot;Like a complete unknown, like a rolling stone&quot;</span>))</span>
+<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">tokenize_words</span>(<span class="fu">paste</span>(<span class="st">&quot;How does it feel, how does it feel?&quot;</span>,</span>
+<span id="cb38-5"><a href="#cb38-5" tabindex="-1"></a>                          <span class="st">&quot;To be on your own, with no direction home&quot;</span>,</span>
+<span id="cb38-6"><a href="#cb38-6" tabindex="-1"></a>                          <span class="st">&quot;A complete unknown, like a rolling stone&quot;</span>))</span>
+<span id="cb38-7"><a href="#cb38-7" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" tabindex="-1"></a><span class="fu">jaccard_similarity</span>(a, b)</span></code></pre></div>
 <pre><code>## [1] 0.65</code></pre>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="kw">jaccard_dissimilarity</span>(a, b)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">jaccard_dissimilarity</span>(a, b)</span></code></pre></div>
 <pre><code>## [1] 0.35</code></pre>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="kw">jaccard_bag_similarity</span>(a, b)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">jaccard_bag_similarity</span>(a, b)</span></code></pre></div>
 <pre><code>## [1] 0.4</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="kw">ratio_of_matches</span>(a, b)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="fu">ratio_of_matches</span>(a, b)</span></code></pre></div>
 <pre><code>## [1] 0.75</code></pre>
-<p>See the documentation for <code>?similarity-functions</code> for details on what is measured with these functions.</p>
-<p>You can write your own similarity functions, which should accept two sets or bags, <code>a</code> and <code>b</code>, should work on both character and numeric vectors, since they are used with either tokens or hashes of tokens, and should return a single numeric score for the comparison. You will need to implement a method for the <code>TextReuseTextDocument</code> class.</p>
+<p>See the documentation for <code>?similarity-functions</code> for
+details on what is measured with these functions.</p>
+<p>You can write your own similarity functions, which should accept two
+sets or bags, <code>a</code> and <code>b</code>, should work on both
+character and numeric vectors, since they are used with either tokens or
+hashes of tokens, and should return a single numeric score for the
+comparison. You will need to implement a method for the
+<code>TextReuseTextDocument</code> class.</p>
 </div>
 <div id="parallelization" class="section level2">
 <h2>Parallelization</h2>
-<p>This package will use multiple cores for a few functions is an option is set. This only benefits the corpus loading and tokenizing functions, which are often the slowest parts of an analysis. This is implemented with the <a href="https://cran.r-project.org/view=HighPerformanceComputing">parallel package</a>, and does not work on Windows machines. (Regardless of the options set, this package will never attempt to parallelize computations on Windows.)</p>
-<p>To use the parallel option, you must specify the number of CPU cores that you wish to use:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="kw">options</span>(<span class="st">&quot;mc.cores&quot;</span> =<span class="st"> </span>4L)</span></code></pre></div>
-<p>If that option is set, this package will use multiple cores when possible.</p>
-<p>You can figure out how many cores your computer has with <code>parallel::detectCores()</code>. See <code>help(package = &quot;parallel&quot;)</code> for more details.</p>
+<p>This package will use multiple cores for a few functions if an option
+is set. This benefits corpus loading, tokenizing, and LSH candidate
+scoring, which are often among the slowest parts of an analysis. This is
+implemented with the <a href="https://cran.r-project.org/view=HighPerformanceComputing">parallel
+package</a>, and does not work on Windows machines. (Regardless of the
+options set, this package will never attempt to parallelize computations
+on Windows.)</p>
+<p>To use the parallel option, you must specify the number of CPU cores
+that you wish to use:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="fu">options</span>(<span class="st">&quot;mc.cores&quot;</span> <span class="ot">=</span> <span class="dv">4</span><span class="dt">L</span>)</span></code></pre></div>
+<p>If that option is set, this package will use multiple cores when
+possible.</p>
+<p>You can figure out how many cores your computer has with
+<code>parallel::detectCores()</code>. See
+<code>help(package = &quot;parallel&quot;)</code> for more details.</p>
 </div>
 
 
