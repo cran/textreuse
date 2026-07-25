@@ -43,7 +43,7 @@
 #'@references Jure Leskovec, Anand Rajaraman, and Jeff Ullman,
 #'  \emph{Mining of Massive Datasets} (Cambridge University Press, 2011), ch.
 #'  3. See also Matthew Casperson,
-#'  "\href{http://matthewcasperson.blogspot.com/2013/11/minhash-for-dummies.html}{Minhash
+#'  "\href{https://matthewcasperson.blogspot.com/2013/11/minhash-for-dummies.html}{Minhash
 #'   for Dummies}" (November 14, 2013).
 #'
 #'@seealso \code{\link{minhash_generator}}, \code{\link{lsh_add}},
@@ -116,7 +116,7 @@ lsh.TextReuseCorpus <- function(x, bands, progress = interactive()) {
 
   buckets <- all_minhashes %>%
     tibble::as_tibble() %>%
-    tidyr::gather("doc", "hash", col_names) %>%
+    tidyr::gather("doc", "hash", dplyr::all_of(col_names)) %>%
     dplyr::mutate(doc = as.character(.data$doc)) %>%
     dplyr::bind_cols(b_assign) %>%
     dplyr::group_by(.data$doc, .data$band)
@@ -136,7 +136,7 @@ lsh.TextReuseCorpus <- function(x, bands, progress = interactive()) {
   if (progress) close(pb)
 
   buckets <- buckets %>%
-    dplyr::select(-.data$band) %>%
+    dplyr::select(-"band") %>%
     dplyr::ungroup()
 
   class(buckets) <- c("lsh_buckets", class(buckets))
@@ -174,7 +174,7 @@ lsh.TextReuseTextDocument <- function(x, bands, progress) {
     dplyr::bind_cols(b_assign) %>%
     dplyr::group_by(.data$doc, .data$band) %>%
     dplyr::summarize(buckets = digest::digest(list(hash, unique(band)))) %>%
-    dplyr::select(-.data$band) %>%
+    dplyr::select(-"band") %>%
     dplyr::ungroup()
 
   class(buckets) <- c("lsh_buckets", class(buckets))

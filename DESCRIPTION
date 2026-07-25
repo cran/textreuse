@@ -1,8 +1,8 @@
 Package: textreuse
 Type: Package
 Title: Detect Text Reuse and Document Similarity
-Version: 1.0.1
-Date: 2026-05-06
+Version: 1.0.2
+Date: 2026-07-24
 Authors@R: c(
     person("Lincoln", "Mullen", role = "aut",
         comment = c(ORCID = "0000-0001-5103-6917")
@@ -22,18 +22,18 @@ URL: https://docs.ropensci.org/textreuse/,
 BugReports: https://github.com/ropensci/textreuse/issues
 VignetteBuilder: knitr
 Depends: R (>= 3.1.1)
-Imports: assertthat (>= 0.1), digest (>= 0.6.8), dplyr (>= 0.8.0), NLP
+Imports: assertthat (>= 0.1), digest (>= 0.6.8), dplyr (>= 1.1.0), NLP
         (>= 0.1.8), Matrix, Rcpp (>= 0.12.0), RcppProgress (>= 0.1),
         stringr (>= 1.0.0), tibble (>= 3.0.1), tidyr (>= 1.0.0)
 Suggests: testthat (>= 0.11.0), knitr (>= 1.11), rmarkdown (>= 0.8),
         covr
 LinkingTo: BH, Rcpp, RcppProgress
-RoxygenNote: 7.3.2
 Encoding: UTF-8
+Config/roxygen2/version: 8.0.0
 NeedsCompilation: yes
-Packaged: 2026-05-06 15:58:10 UTC; Bach
+Packaged: 2026-07-24 22:50:27 UTC; Li
 Author: Lincoln Mullen [aut] (ORCID: <https://orcid.org/0000-0001-5103-6917>),
   Yaoxiang Li [aut, cre] (ORCID: <https://orcid.org/0000-0001-9200-1016>)
 Maintainer: Yaoxiang Li <liyaoxiang@outlook.com>
 Repository: CRAN
-Date/Publication: 2026-05-07 08:00:02 UTC
+Date/Publication: 2026-07-25 17:10:02 UTC
